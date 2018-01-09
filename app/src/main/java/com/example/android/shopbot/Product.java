@@ -9,9 +9,9 @@ public class Product {
     private String name;
     private String price;
     private String url;
-    private int imageResourceId;
+    private String imageResourceId;
 
-    public Product(String n, String p, String u, int i){
+    public Product(String n, String p, String u, String i){
         name = n;
         price = p;
         url = u;
@@ -30,7 +30,7 @@ public class Product {
         return url;
     }
 
-    public int getImage(){
+    public String getImage(){
         return imageResourceId;
     }
 }

@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,12 +15,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Product>> {
     public static final String LOG_TAG = MainActivity.class.getName();
 
     //needs to be changed
     private static final String REQUEST_URL =
-            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
+            "https://price-api.datayuge.com/api/v1/compare/search?api_key=Uj3KahNgL3owF7EtbGMy57926uJttmHFBU0&product=Iphone&filter=brand%3Aapple&price_start=20000&price_end=30000&page=1";
 
     //ShopbotAdapter needs to be made
     private ProductAdapter mAdapter;
@@ -101,30 +100,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        @Override
-        public Loader<List<Product>> onCreateLoader(int i, Bundle bundle) {
-            // Create a new loader for the given URL
-            return new ShopbotLoader(this, REQUEST_URL);
+
+    @Override
+    public Loader<List<Product>> onCreateLoader(int i, Bundle bundle) {
+        // Create a new loader for the given URL
+        return new ShopbotLoader(this, REQUEST_URL);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Product>> loader, List<Product> products) {
+        mAdapter.clear();
+
+        if (products != null && !products.isEmpty()) {
+            mAdapter.addAll(products);
         }
 
-        @Override
-        public void onLoadFinished(Loader<List<Product>> loader, List<Product> products) {
-            mAdapter.clear();
+        // Set empty state text to display "No Search Results Found"
+        mEmptyStateTextView.setText("No Search Results Found");
 
-            if (products != null && !products.isEmpty()) {
-                mAdapter.addAll(products);
-            }
+    }
 
-            // Set empty state text to display "No Search Results Found"
-            mEmptyStateTextView.setText("No Search Results Found");
-
-        }
-
-        @Override
-        public void onLoaderReset(Loader<List<Product>> loader) {
-            //  Loader reset, so we can clear out our existing data.
-            mAdapter.clear();
-        }
-
+    @Override
+    public void onLoaderReset(Loader<List<Product>> loader) {
+        //  Loader reset, so we can clear out our existing data.
+        mAdapter.clear();
     }
 }

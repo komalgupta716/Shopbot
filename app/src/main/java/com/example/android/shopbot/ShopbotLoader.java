@@ -28,7 +28,7 @@ public class ShopbotLoader extends AsyncTaskLoader {
         }
 
         //QueryUtils is yet to be made
-        List<Product> result = QueryUtils.fetchEarthquakeData(mUrl);
+        List<Product> result = QueryUtils.fetchProductData(mUrl);
         return result;
     }
 }
