@@ -18,11 +18,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Product>> {
     public static final String LOG_TAG = MainActivity.class.getName();
 
-    //needs to be changed
     private static final String REQUEST_URL =
             "https://price-api.datayuge.com/api/v1/compare/search?api_key=Uj3KahNgL3owF7EtbGMy57926uJttmHFBU0&product=Iphone&filter=brand%3Aapple&price_start=20000&price_end=30000&page=1";
 
-    //ShopbotAdapter needs to be made
     private ProductAdapter mAdapter;
 
     // Constant value for the Shopbot loader ID. We can choose any integer.This really only comes into play if you're using multiple loaders.
@@ -30,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     //TextView for Empty State(No results match)
     private TextView mEmptyStateTextView;
-
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +57,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    // Find the current earthquake that was clicked on
+                    // Find the current item that was clicked on
                     Product currentItem = mAdapter.getItem(position);
 
                     // Convert the String URL into a URI object (to pass into the Intent constructor)
                     Uri productUri = Uri.parse(currentItem.getUrl());
 
-                    // Create a new intent to view the earthquake URI
+                    // Create a new intent to view the item URI
                     Intent websiteIntent = new Intent(Intent.ACTION_VIEW, productUri);
 
                     // Send the intent to launch a new activity
@@ -74,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             });
         }
-
 
         private class ShopbotAsyncTask extends AsyncTask<String, Void, List<Product>> {
 

@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:hint="Search"/>
 
-    <!-- Layout for a list of earthquakes -->
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list"
         android:orientation="vertical"

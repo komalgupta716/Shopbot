@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -32,11 +35,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         Product currentItem = getItem(position);
 
         //need to figure out how to add image from internet
-        /*
-        ImageView productImageView = (ImageView) listItemView.findViewById(R.id.product_image);
-        String productName = currentItem.getName();
-        nameTextView.setText(productName);
-        */
+        ImageView imageView = (ImageView) listItemView.findViewById(R.id.product_image);
+        String productImage = currentItem.getImage();
+        Picasso.with(getContext()).load(productImage).into(imageView);
 
         TextView nameTextView = (TextView) listItemView.findViewById(R.id.product_name);
         String productName = currentItem.getName();
@@ -45,7 +46,6 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         TextView priceTextView = (TextView) listItemView.findViewById(R.id.product_price);
         String productPrice = currentItem.getPrice();
         priceTextView.setText(productPrice);
-
 
         // Return the list item view that is now showing the appropriate data
         return listItemView;

@@ -25,7 +25,6 @@ import static com.example.android.shopbot.MainActivity.LOG_TAG;
  */
 
 public class QueryUtils {
-    //this needs to be implemented with respect to APIs
 
     private QueryUtils() {
     }
@@ -42,11 +41,8 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
-        List<Product> earthquakes = extractFeatureFromJson(jsonResponse);
-
-        // Return the list of {@link Earthquake}s
-        return earthquakes;
+        List<Product> products = extractFeatureFromJson(jsonResponse);
+        return products;
     }
 
     /**
@@ -139,19 +135,16 @@ public class QueryUtils {
                 // Get a single item at position i within the list of products
                 JSONObject currentItem = productArray.getJSONObject(i);
 
-                String name = currentItem.getString("product_tile");
+                String name = currentItem.getString("product_title");
                 String price = currentItem.getString("product_lowest_price");
                 String url = currentItem.getString("product_link");
                 String image = currentItem.getString("product_image");
 
-                // Create a new {@link Earthquake} object with the magnitude, location, time, and url from the JSON response.
                 Product product = new Product(name, price, url, image);
-
-                // Add the new {@link Earthquake} to the list of earthquakes.
                 products.add(product);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Problem parsing the earthquake JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the product JSON results", e);
         }
         return products;
     }

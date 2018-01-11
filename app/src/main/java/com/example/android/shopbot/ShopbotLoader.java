@@ -27,7 +27,6 @@ public class ShopbotLoader extends AsyncTaskLoader {
             return null;
         }
 
-        //QueryUtils is yet to be made
         List<Product> result = QueryUtils.fetchProductData(mUrl);
         return result;
     }
