@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected List<Product> doInBackground(String... urls) {
-                // Don't perform the request if there are no URLs, or the first URL is null.
+                //Don't perform the request if there are no URLs, or the first URL is null.
                 if (urls.length < 1 || urls[0] == null) {
                     return null;
                 }
