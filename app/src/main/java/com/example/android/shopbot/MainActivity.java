@@ -3,7 +3,6 @@ package com.example.android.shopbot;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
 
-            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+            // Initialize the loader. Pass in the int ID constant defined above and pass in null for the bundle.
+            // Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
             loaderManager.initLoader(SHOPBOT_LOADER_ID, null, this);
 
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             ListView listView = (ListView) findViewById(R.id.list);
             listView.setAdapter(mAdapter);
 
-            // Start the AsyncTask to fetch the earthquake data
+            // Start the AsyncTask to fetch the data
             ShopbotAsyncTask task = new ShopbotAsyncTask();
             task.execute(REQUEST_URL);
 
@@ -57,17 +56,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    // Find the current item that was clicked on
+                    // Find the current earthquake that was clicked on
                     Product currentItem = mAdapter.getItem(position);
 
-                    // Convert the String URL into a URI object (to pass into the Intent constructor)
-                    Uri productUri = Uri.parse(currentItem.getUrl());
+                    //Get currentItem's url
+                    String productUrl= currentItem.getUrl();
 
-                    // Create a new intent to view the item URI
-                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, productUri);
+                    // Create a new intent to open the {@link ProductActivity}
+                    Intent productIntent = new Intent(MainActivity.this, ProductActivity.class);
+                    productIntent.putExtra("productUrl", productUrl);
 
                     // Send the intent to launch a new activity
-                    startActivity(websiteIntent);
+                    startActivity(productIntent);
                 }
             });
         }
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         }
 
-
     @Override
     public Loader<List<Product>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
@@ -113,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Set empty state text to display "No Search Results Found"
         mEmptyStateTextView.setText("No Search Results Found");
-
     }
 
     @Override

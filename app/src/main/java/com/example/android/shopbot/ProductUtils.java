@@ -16,21 +16,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.example.android.shopbot.MainActivity.LOG_TAG;
 
 /**
- * Created by Komal on 1/3/2018.
+ * Created by Prabhjot on 14-01-2018.
  */
 
-public class QueryUtils {
-
-    private QueryUtils() {
+public class ProductUtils {
+    private ProductUtils() {
     }
 
-    public static List<Product> fetchProductData(String requestUrl) {
-        // Create URL object
+    public static List<Store> fetchStoreData(String requestUrl) {
+
         URL url = createUrl(requestUrl);
 
         // Perform HTTP request to the URL and receive a JSON response back
@@ -41,8 +41,8 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        List<Product> products = extractFeatureFromJson(jsonResponse);
-        return products;
+        List<Store> stores = extractFeatureFromJson(jsonResponse);
+        return stores;
     }
 
     /**
@@ -53,7 +53,6 @@ public class QueryUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException exception) {
-            Log.e(LOG_TAG, "Error with creating URL", exception);
             return null;
         }
         return url;
@@ -79,7 +78,6 @@ public class QueryUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else{
-                Log.e(LOG_TAG, "Error Response Code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
             // TODO: Handle the exception
@@ -113,39 +111,54 @@ public class QueryUtils {
         return output.toString();
     }
 
-
-    private static List<Product> extractFeatureFromJson(String productJSON) {
+    private static List<Store> extractFeatureFromJson(String productJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(productJSON)) {
             return null;
         }
+
         // Create an empty ArrayList that we can start adding products to
-        List<Product> products = new ArrayList<>();
+        List<Store> stores = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
             JSONObject baseJsonResponse = new JSONObject(productJSON);
-            JSONArray productArray = baseJsonResponse.getJSONArray("data");
+            JSONObject productData = baseJsonResponse.getJSONObject("data");
+            JSONArray storeArray= productData.getJSONArray("stores");
 
-            // For each product in the productArray, create an object
-            for (int i = 0; i < productArray.length(); i++) {
+            // For each store in the storeArray, create an object
+            for (int i = 0; i < storeArray.length(); i++) {
 
                 // Get a single item at position i within the list of products
-                JSONObject currentItem = productArray.getJSONObject(i);
+                JSONObject currentIndex = storeArray.getJSONObject(i);
 
-                String name = currentItem.getString("product_title");
-                String price = currentItem.getString("product_lowest_price");
-                String url = currentItem.getString("product_link");
-                String image = currentItem.getString("product_image");
+                Iterator<String> keys = currentIndex.keys();
+                // get some_name_i_wont_know in str_Name
+                String storeName=keys.next();
 
-                Product product = new Product(name, price, url, image);
-                products.add(product);
+                Object intervention = currentIndex.get(storeName);
+
+                if (intervention instanceof JSONArray) {
+                    // It's an array
+                }
+                else if (intervention instanceof JSONObject) {
+                    // It's an object
+                    JSONObject currentStore = currentIndex.getJSONObject(storeName);
+                    String name = currentStore.getString("product_store");
+                    String price = currentStore.getString("product_price");
+                    String url = currentStore.getString("product_store_url");
+                    String logo = currentStore.getString("product_store_logo");
+
+                    Store store = new Store(name, logo, price, url);
+                    stores.add(store);
+                }
             }
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the product JSON results", e);
         }
-        return products;
+        return stores;
     }
 }
