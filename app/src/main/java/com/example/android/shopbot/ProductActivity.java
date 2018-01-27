@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,23 +23,30 @@ public class ProductActivity extends AppCompatActivity {
     private StoreAdapter mAdapter;
     private TextView mEmptyStateTextView;
 
+    ViewPager viewPager;
+    MyCustomPagerAdapter myCustomPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         mAdapter = new StoreAdapter(this, new ArrayList<Store>());
 
-
         ListView storesList = (ListView) findViewById(R.id.stores_list);
         storesList.setAdapter(mAdapter);
+
 
         Bundle bundle = getIntent().getExtras();
         String productUrl = bundle.getString("productUrl");
 
         final String PRODUCT_REQUEST_URL = productUrl + "&api_key=Uj3KahNgL3owF7EtbGMy57926uJttmHFBU0";
 
-        ProductAsyncTask task = new ProductAsyncTask();
-        task.execute(PRODUCT_REQUEST_URL);
+
+        ProductInformationAsyncTask task_one = new ProductInformationAsyncTask();
+        task_one.execute(PRODUCT_REQUEST_URL);
+
+        ProductAsyncTask task_two = new ProductAsyncTask();
+        task_two.execute(PRODUCT_REQUEST_URL);
 
         storesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -57,6 +65,41 @@ public class ProductActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private class ProductInformationAsyncTask extends AsyncTask<String, Void, ProductInformation>{
+
+        @Override
+        protected ProductInformation doInBackground(String... urls) {
+            // Don't perform the request if there are no URLs, or the first URL is null.
+            if (urls.length < 1 || urls[0] == null) {
+                return null;
+            }
+
+            ProductInformation productInformation= ProductInformationUtils.fetchStoreData(urls[0]);
+            return productInformation;
+        }
+
+        /**
+         * This method runs on the main UI thread after the background work has been
+         * completed. This method receives as input, the return value from the doInBackground()
+         * method. First we clear out the adapter, to get rid of earthquake data from a previous
+         * query to USGS. Then we update the adapter with the new list of earthquakes,
+         * which will trigger the ListView to re-populate its list items.
+         */
+        @Override
+        protected void onPostExecute(ProductInformation data) {
+
+            viewPager = (ViewPager)findViewById(R.id.viewPager);
+            myCustomPagerAdapter = new MyCustomPagerAdapter(ProductActivity.this, data.getImages());
+            viewPager.setAdapter(myCustomPagerAdapter);
+
+            TextView productNameTextView = (TextView) findViewById(R.id.product_name);
+            String productName = data.getProductName();
+            productNameTextView.setText(productName);
+
+        }
 
     }
 

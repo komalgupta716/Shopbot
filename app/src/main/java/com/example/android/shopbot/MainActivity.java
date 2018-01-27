@@ -17,9 +17,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Product>> {
     public static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String REQUEST_URL =
-            "https://price-api.datayuge.com/api/v1/compare/search?api_key=Uj3KahNgL3owF7EtbGMy57926uJttmHFBU0&product=Iphone&filter=brand%3Aapple&price_start=20000&price_end=30000&page=1";
+    //EditText SearchTextView = (EditText) findViewById(R.id.search_bar);
+    //String searchItem = SearchTextView.getText().toString();
 
+    private static final String REQUEST_URL =
+            "https://price-api.datayuge.com/api/v1/compare/search?api_key=Uj3KahNgL3owF7EtbGMy57926uJttmHFBU0&product=macbook%20air";
     private ProductAdapter mAdapter;
 
     // Constant value for the Shopbot loader ID. We can choose any integer.This really only comes into play if you're using multiple loaders.
