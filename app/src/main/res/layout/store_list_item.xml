@@ -3,10 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:paddingEnd="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingStart="16dp">
+    android:paddingLeft="16dp">
 
     <ImageView
         android:id="@+id/store_logo"

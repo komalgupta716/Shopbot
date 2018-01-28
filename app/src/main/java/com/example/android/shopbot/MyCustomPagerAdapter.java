@@ -17,9 +17,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MyCustomPagerAdapter extends PagerAdapter{
-    Context context;
-    ArrayList<String> images;
-    LayoutInflater layoutInflater;
+    public Context context;
+    public ArrayList<String> images;
+    public LayoutInflater layoutInflater;
 
 
     public MyCustomPagerAdapter(Context context, ArrayList<String> images) {
@@ -30,7 +30,11 @@ public class MyCustomPagerAdapter extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return images.size();
+        if(images==null)
+            return 0;
+        else {
+            return images.size();
+        }
     }
 
     @Override

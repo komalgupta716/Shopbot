@@ -1,44 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_margin="0dp">
+
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!--
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-        -->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:gravity="center_horizontal"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:paddingBottom="8dp"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-light"
         android:id="@+id/product_name"/>
+    <!--
+    <RatingBar
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingBottom="8dp"
+        android:id="@+id/rating_bar"
+        android:isIndicator="true"
+        style = "?android:attr/ratingBarStyleSmall"
+        android:layout_gravity="center_horizontal"
+        android:numStars="5"
+        android:stepSize="0.1" />
+        -->
 
-    <android.support.v4.view.ViewPager
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:id="@+id/viewPager"/>
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="256dp" />
+
+        <LinearLayout
+            android:id="@+id/SliderDots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewPager"
+            android:paddingTop="16dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingLeft="16dp"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-light"
+        android:text="Available On: "/>
 
     <ListView
         android:id="@+id/stores_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp">
-
     </ListView>
 
 </LinearLayout>
+
+    </ScrollView>

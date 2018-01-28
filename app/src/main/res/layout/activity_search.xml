@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <EditText
+        android:id="@+id/product_name_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search Product Name"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        style="@style/HeaderTextStyle"
+        android:layout_marginBottom="16dp"
+        android:text="Price Filter" />
+
+    <EditText
+        android:id="@+id/starting_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:hint ="Enter Minimum Price"
+        android:textSize="16sp"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/ending_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:hint ="Enter Maximum Price"
+        android:textSize="16sp"
+        android:inputType="number"/>
+
+    <Button
+        android:id="@+id/show_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHOW RESULTS"
+        android:layout_margin="16dp"
+        android:layout_gravity="center_horizontal"
+        />
+
+</LinearLayout>

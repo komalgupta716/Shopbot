@@ -45,7 +45,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
         TextView priceTextView = (TextView) listItemView.findViewById(R.id.product_price);
         String productPrice = currentItem.getPrice();
-        priceTextView.setText(productPrice);
+        priceTextView.setText("Rs." + productPrice);
 
         // Return the list item view that is now showing the appropriate data
         return listItemView;

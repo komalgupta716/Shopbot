@@ -19,11 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.example.android.shopbot.MainActivity.LOG_TAG;
-
-/**
- * Created by Prabhjot on 14-01-2018.
- */
+import static com.example.android.shopbot.SearchResultActivity.LOG_TAG;
 
 public class ProductUtils {
     private ProductUtils() {
@@ -127,33 +123,49 @@ public class ProductUtils {
             JSONObject baseJsonResponse = new JSONObject(productJSON);
             JSONObject productData = baseJsonResponse.getJSONObject("data");
             JSONArray storeArray= productData.getJSONArray("stores");
+            boolean isComparable= productData.getBoolean("is_comparable");
 
-            // For each store in the storeArray, create an object
-            for (int i = 0; i < storeArray.length(); i++) {
+            String name="", price="", url="", logo="";
 
-                // Get a single item at position i within the list of products
-                JSONObject currentIndex = storeArray.getJSONObject(i);
+            if(isComparable) {
+                // For each store in the storeArray, create an object
+                for (int i = 0; i < storeArray.length(); i++) {
 
-                Iterator<String> keys = currentIndex.keys();
-                // get some_name_i_wont_know in str_Name
-                String storeName=keys.next();
+                    // Get a single item at position i within the list of products
+                    JSONObject currentIndex = storeArray.getJSONObject(i);
 
-                Object intervention = currentIndex.get(storeName);
+                    Iterator<String> keys = currentIndex.keys();
+                    // get some_name_i_wont_know in str_Name
+                    String storeName = keys.next();
 
-                if (intervention instanceof JSONArray) {
-                    // It's an array
+                    Object intervention = currentIndex.get(storeName);
+
+                    if (intervention instanceof JSONArray) {
+                        // It's an array
+                    } else if (intervention instanceof JSONObject) {
+                        // It's an object
+                        JSONObject currentStore = currentIndex.getJSONObject(storeName);
+                        name = currentStore.getString("product_store");
+                        price = currentStore.getString("product_price");
+                        url = currentStore.getString("product_store_url");
+                        logo = currentStore.getString("product_store_logo");
+
+                        Store store = new Store(name, logo, price, url);
+                        stores.add(store);
+                    }
                 }
-                else if (intervention instanceof JSONObject) {
-                    // It's an object
-                    JSONObject currentStore = currentIndex.getJSONObject(storeName);
-                    String name = currentStore.getString("product_store");
-                    String price = currentStore.getString("product_price");
-                    String url = currentStore.getString("product_store_url");
-                    String logo = currentStore.getString("product_store_logo");
+            }
 
-                    Store store = new Store(name, logo, price, url);
-                    stores.add(store);
-                }
+            else
+            {
+                JSONObject onlyStore= storeArray.getJSONObject(0);
+                name = onlyStore.getString("product_store");
+                price = onlyStore.getString("product_price");
+                url = onlyStore.getString("product_store_url");
+                logo = onlyStore.getString("product_store_logo");
+
+                Store store = new Store(name, logo, price, url);
+                stores.add(store);
             }
 
         } catch (JSONException e) {

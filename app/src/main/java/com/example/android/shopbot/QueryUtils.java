@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.android.shopbot.MainActivity.LOG_TAG;
+import static com.example.android.shopbot.SearchResultActivity.LOG_TAG;
 
 /**
  * Created by Komal on 1/3/2018.
